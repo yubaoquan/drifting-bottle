@@ -14,9 +14,11 @@ module.exports = (redis) => async (req, res) => {
     const bottle = JSON.stringify({ time, owner, type, content });
     const bottleHash = md5(bottle);
 
-    await redis.set(bottleHash, bottle);
-    await redis.sadd(type, bottleHash);
-    await redis.sadd('all', bottleHash);
+    await redis.multi()
+      .set(bottleHash, bottle)
+      .sadd(type, bottleHash)
+      .sadd('all', bottleHash)
+      .exec();
 
     res.send({ code: 1, msg: '扔瓶成功' });
   } catch (e) {
