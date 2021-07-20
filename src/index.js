@@ -15,7 +15,7 @@ app.use(express.json());
 app.get('/', fetchBottle(redis));
 app.post('/', createBottle(redis));
 
-const port = 3000;
+const port = 4000;
 app.listen(port, () => {
   console.info(`server running on http://localhost:${port}`);
 });
